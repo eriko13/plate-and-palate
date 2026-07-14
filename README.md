@@ -35,10 +35,10 @@ Plate & Palate is a web marketplace that connects home cooks and local chefs wit
 
 | Color | Hex | Use |
 |---|---|---|
-| Terracotta | `#C4552D` | Primary accent — buttons, links, highlights |
+| Terracotta | `#C4552D` | Primary accent, buttons, links, highlights |
 | Cream | `#FAF3E7` | Page background |
 | Charcoal | `#2E2A25` | Headings and body text |
-| Sage | `#8A9B6E` | Secondary accent — tags, success states |
+| Sage | `#8A9B6E` | Secondary accent, tags, success states |
 
 ### Typography
 
