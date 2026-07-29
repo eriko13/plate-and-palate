@@ -10,6 +10,7 @@ Plate & Palate is a web marketplace that connects home cooks and local chefs wit
 - Erik German Ruiz
 - Karim Valenzuela Gonzalez
 - Precious Okoroji
+- Demetrious Shoniwa
 
 ## Tech Stack
 
