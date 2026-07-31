@@ -32,7 +32,7 @@ export default function ManageDishesPage() {
         <div className="manage-grid">
           <section className="manage-panel">
             <div className="eyebrow">Cook dashboard</div>
-            <h1 style={{ fontSize: 40 }}>Your menu</h1>
+            <h1>Your menu</h1>
             <p className="muted">Add a dish to share what&apos;s cooking this week.</p>
             <form onSubmit={addDish}>
               <label className="form-label" htmlFor="dish-name">Dish name</label>
