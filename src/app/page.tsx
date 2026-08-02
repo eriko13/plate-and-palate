@@ -1,10 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { DishCard } from "@/components/DishCard";
-import { dishes, cooks } from "@/lib/data";
+import { getCooks, getDishes } from "@/lib/data";
 
-export default function Home() {
+const steps = [
+  {
+    title: "Browse nearby kitchens",
+    copy: "Scan homemade dishes from cooks in Rexburg and nearby towns.",
+  },
+  {
+    title: "Request what you crave",
+    copy: "Message a cook to arrange pickup — no full checkout required.",
+  },
+  {
+    title: "Share the table",
+    copy: "Leave a rating after you try a dish so neighbors know what’s good.",
+  },
+];
+
+export default async function Home() {
+  const [dishes, cooks] = await Promise.all([getDishes(), getCooks()]);
+  const featured = dishes.slice(0, 3);
+  const featuredCook = cooks[0];
+
   return (
     <>
       <Header overlay />
@@ -29,7 +49,10 @@ export default function Home() {
               <Link className="button button-hero-primary" href="/browse">
                 Explore dishes
               </Link>
-              <Link className="button button-hero-secondary" href="/cook/marisol-hernandez">
+              <Link
+                className="button button-hero-secondary"
+                href={featuredCook ? `/cook/${featuredCook.slug}` : "/browse"}
+              >
                 Meet a cook
               </Link>
             </div>
@@ -42,24 +65,63 @@ export default function Home() {
               <div>
                 <h2>What&apos;s cooking nearby</h2>
               </div>
-              <Link className="text-link" href="/browse">View all dishes →</Link>
+              <Link className="text-link" href="/browse">
+                View all dishes →
+              </Link>
             </div>
             <div className="dish-grid">
-              {dishes.slice(0, 3).map((dish) => <DishCard key={dish.slug} dish={dish} />)}
+              {featured.map((dish) => {
+                const cook = cooks.find((item) => item.slug === dish.cookSlug);
+                return <DishCard key={dish.slug} dish={dish} cookName={cook?.name} />;
+              })}
             </div>
           </section>
-          <section className="cook-strip">
-            <div className="cook-meta">
-              <Image className="avatar" src={cooks[0].avatar} alt="" width={120} height={120} />
+
+          <section className="section how-it-works">
+            <div className="section-heading">
               <div>
-                <strong>Meet Marisol</strong>
-                <p>{cooks[0].specialty} · {cooks[0].location}</p>
+                <div className="eyebrow">How it works</div>
+                <h2>Three steps to a homemade meal</h2>
               </div>
             </div>
-            <Link className="text-link" href={`/cook/${cooks[0].slug}`}>Read her story →</Link>
+            <ol className="steps-grid">
+              {steps.map((step, index) => (
+                <li className="step-item" key={step.title}>
+                  <span className="step-number" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </li>
+              ))}
+            </ol>
           </section>
+
+          {featuredCook && (
+            <section className="cook-strip">
+              <div className="cook-meta">
+                <Image
+                  className="avatar"
+                  src={featuredCook.avatar}
+                  alt=""
+                  width={120}
+                  height={120}
+                />
+                <div>
+                  <strong>Meet {featuredCook.name.split(" ")[0]}</strong>
+                  <p>
+                    {featuredCook.specialty} · {featuredCook.location}
+                  </p>
+                </div>
+              </div>
+              <Link className="text-link" href={`/cook/${featuredCook.slug}`}>
+                Read their story →
+              </Link>
+            </section>
+          )}
         </div>
       </main>
+      <Footer />
     </>
   );
 }
