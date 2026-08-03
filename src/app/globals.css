@@ -9,15 +9,15 @@
   --line: #e5ded3;
   --muted: #6f675e;
 
-  /* Type scale — major third (1.25) */
+  /* Type scale — perfect fourth (1.333) */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-md: 1.125rem;
-  --text-lg: 1.375rem;
-  --text-xl: clamp(1.75rem, 3vw, 2.5rem);
-  --text-2xl: clamp(1.875rem, 3.5vw, 2.75rem);
-  --text-display: clamp(2.5rem, 6vw, 4.25rem);
+  --text-lg: 1.5rem;
+  --text-xl: clamp(1.75rem, 2.5vw, 2.25rem);
+  --text-2xl: clamp(2.125rem, 3.5vw, 2.875rem);
+  --text-display: clamp(2.5rem, 5.5vw, 4rem);
 
   --weight-regular: 400;
   --weight-medium: 500;
@@ -33,14 +33,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-source);
-  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-family-sans);
+  --font-display: var(--font-family-display);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-source), system-ui, sans-serif;
+  font-family: var(--font-family-sans), "Segoe UI", system-ui, sans-serif;
   font-size: var(--text-base);
   font-kerning: normal;
   font-optical-sizing: auto;
@@ -133,16 +133,26 @@ button, input, textarea, select {
 }
 
 .wordmark, h1, h2, h3 {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-weight: var(--weight-bold);
+  font-family: var(--font-family-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
   text-wrap: balance;
 }
 
 .wordmark {
   color: var(--terracotta);
   font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-family: var(--font-family-sans), "Segoe UI", system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+  line-height: var(--leading-snug);
+  margin-bottom: 10px;
 }
 
 .brand-lockup {
@@ -163,13 +173,13 @@ button, input, textarea, select {
   gap: 26px;
 }
 
-.nav a {
+.nav a:not(.button) {
   color: var(--muted);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
 
-.nav a:hover, .text-link:hover {
+.nav a:not(.button):hover, .text-link:hover {
   color: var(--terracotta);
 }
 
@@ -265,10 +275,10 @@ button, input, textarea, select {
 }
 
 .hero-brand {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-family: var(--font-family-display), Georgia, "Times New Roman", serif;
   font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: var(--leading-tight);
   margin: 0 0 18px;
   text-wrap: balance;
@@ -277,8 +287,8 @@ button, input, textarea, select {
 .hero h1 {
   color: #fff;
   font-size: var(--text-display);
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.025em;
+  font-weight: 400;
+  letter-spacing: -0.015em;
   line-height: 1.05;
   margin: 0;
   max-width: 12ch;
@@ -321,7 +331,7 @@ button, input, textarea, select {
 
 h1 {
   font-size: var(--text-display);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   line-height: var(--leading-tight);
   margin: 0;
   max-width: 18ch;
@@ -329,15 +339,15 @@ h1 {
 
 h2 {
   font-size: var(--text-2xl);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   line-height: var(--leading-tight);
   margin: 0;
 }
 
 h3 {
   font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  letter-spacing: -0.005em;
   line-height: var(--leading-snug);
   margin: 0;
 }
@@ -431,9 +441,9 @@ h3 {
 }
 
 .cook-strip strong {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-family: var(--font-family-display), Georgia, "Times New Roman", serif;
   font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
+  font-weight: 400;
 }
 
 .cook-strip p {
@@ -499,7 +509,7 @@ h3 {
 }
 
 .detail-copy h1 {
-  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-size: var(--text-2xl);
   margin-bottom: 18px;
 }
 
@@ -514,7 +524,7 @@ h3 {
 
 .detail-price {
   color: var(--terracotta);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;
 }
@@ -603,8 +613,8 @@ h3 {
 }
 
 .manage-item strong {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-weight: var(--weight-semibold);
+  font-family: var(--font-family-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
 }
 
 .manage-item-image {
