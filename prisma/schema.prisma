@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  BUYER
+  COOK
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String       @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  role          Role         @default(BUYER)
+  accounts      Account[]
+  sessions      Session[]
+  cookProfile   CookProfile?
+  reviews       Review[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model CookProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug      String   @unique
+  handle    String
+  location  String
+  bio       String
+  story     String   @db.Text
+  avatar    String
+  specialty String
+  dishes    Dish[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id     String @id @default(cuid())
+  name   String @unique
+  slug   String @unique
+  dishes Dish[]
+}
+
+model Dish {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String      @db.Text
+  price       Decimal     @db.Decimal(10, 2)
+  image       String
+  prepTime    String
+  tags        String[]
+  rating      Float       @default(0)
+  reviewCount Int         @default(0)
+  cookId      String
+  cook        CookProfile @relation(fields: [cookId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  reviews     Review[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  body      String   @db.Text
+  dishId    String
+  dish      Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([dishId, userId])
+}

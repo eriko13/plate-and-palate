@@ -2,7 +2,7 @@
 
 **BYU-I WDD 430 Group Project**
 
-Plate & Palate is a web marketplace that connects home cooks and local chefs with hungry neighbors. Cooks create authenticated seller profiles to showcase their story and list homemade dishes with descriptions, pricing, and photos. Buyers browse the catalog, filter by cuisine category and price, and leave ratings and written reviews on the dishes they try. The app celebrates local food culture and gives talented home cooks a place to build a reputation.
+Plate & Palate helps people find homemade food from cooks nearby. Cooks make a profile and list dishes. Buyers browse by category or price, then leave ratings and reviews.
 
 ## Team Members
 
@@ -22,36 +22,50 @@ Plate & Palate is a web marketplace that connects home cooks and local chefs wit
 
 ### Back-end
 - Node.js
-- PostgreSQL (Vercel Postgres)
+- PostgreSQL (Neon)
 - Auth.js (NextAuth)
+- Prisma
 
 ### Deployment & Workflow
-- Vercel (cloud deployment)
-- GitHub Boards (project management)
+- Vercel
+- GitHub Boards
 - Git/GitHub with feature branches + pull requests
 
 ## Design
 
-### Color Schema
+### Colors
 
 | Color | Hex | Use |
 |---|---|---|
-| Terracotta | `#C4552D` | Primary accent, buttons, links, highlights |
+| Terracotta | `#C4552D` | Buttons, links, accents |
 | Cream | `#FAF3E7` | Page background |
-| Charcoal | `#2E2A25` | Headings and body text |
-| Sage | `#8A9B6E` | Secondary accent, tags, success states |
+| Charcoal | `#2E2A25` | Text |
+| Sage | `#8A9B6E` | Tags and secondary accents |
 
 ### Typography
 
-- **Fraunces** (serif) — headings and brand
-- **Nunito Sans** (sans-serif) — body text and UI
-
-The warm terracotta-and-cream palette with a soft serif evokes a home kitchen: warm, personal, and appetizing.
+- **Bricolage Grotesque** — headings and brand
+- **Source Sans 3** — body text and UI
 
 ## Core Features
 
-- Authenticated cook (seller) profiles
+- Cook (seller) profiles with login
 - Dish listings with description, price, and images
 - Browse page with category and price filters
-- Ratings and written reviews from any user
-- Responsive, accessible (WCAG 2.1 AA), and SEO-friendly
+- Ratings and written reviews
+- Responsive layout with basic accessibility and SEO metadata
+
+## Local setup
+
+```bash
+nvm use 22
+pnpm install
+vercel env pull .env.local
+pnpm db:setup
+pnpm dev
+```
+
+Demo accounts (from seed):
+
+- Buyer: `buyer@plateandpalate.test` / `buyer1234`
+- Cook: `marisol@plateandpalate.test` / `cook1234`
