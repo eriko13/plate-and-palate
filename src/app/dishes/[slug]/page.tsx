@@ -3,13 +3,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getCook, getDish } from "@/lib/data";
+import { DishRequestForm } from "@/components/DishRequestForm";
+import { ReviewForm } from "@/components/ReviewForm";
+import { auth } from "@/auth";
+import { getCook, getDish, getDishReviews } from "@/lib/data";
 
 export default async function DishPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const dish = await getDish(slug);
   if (!dish) notFound();
-  const cook = await getCook(dish.cookSlug);
+  const [cook, reviews, session] = await Promise.all([getCook(dish.cookSlug), getDishReviews(slug), auth()]);
+  const ownReview = reviews.find((review) => review.userId === session?.user?.id);
 
   return (
     <>
@@ -48,16 +52,46 @@ export default async function DishPage({ params }: { params: Promise<{ slug: str
                 </div>
               </div>
             )}
-            <div className="hero-actions" style={{ marginTop: 30 }}>
-              <button className="button button-primary" type="button">
-                Request this dish
-              </button>
-              <Link className="button button-light" href="/browse">
-                Back to browse
-              </Link>
+            <div className="request-panel">
+              {session?.user?.role === "BUYER" ? (
+                <DishRequestForm dishSlug={dish.slug} />
+              ) : session?.user ? (
+                <p className="muted">Cook accounts cannot request dishes. Switch to a buyer account to contact this cook.</p>
+              ) : (
+                <p className="muted"><Link className="text-link" href={`/login?callbackUrl=/dishes/${dish.slug}`}>Sign in</Link> as a buyer to request this dish.</p>
+              )}
+            </div>
+            <div className="hero-actions" style={{ marginTop: 18 }}>
+              <Link className="button button-light" href="/browse">Back to browse</Link>
             </div>
           </div>
         </div>
+        <section className="reviews-section" aria-labelledby="reviews-heading">
+          <div className="section-heading">
+            <div>
+              <div className="eyebrow">Community feedback</div>
+              <h2 id="reviews-heading">Reviews</h2>
+            </div>
+            <span className="rating">★ {dish.rating.toFixed(1)} / 5</span>
+          </div>
+          {session?.user ? (
+            <div className="review-panel">
+              <h3>{ownReview ? "Update your review" : "Share your experience"}</h3>
+              <ReviewForm dishSlug={dish.slug} existingReview={ownReview} />
+            </div>
+          ) : (
+            <p className="review-signin"><Link className="text-link" href={`/login?callbackUrl=/dishes/${dish.slug}`}>Sign in</Link> to leave a rating and review.</p>
+          )}
+          <div className="review-list">
+            {reviews.length ? reviews.map((review) => (
+              <article className="review-item" key={review.id}>
+                <div className="review-heading"><strong>{review.author}</strong><span className="rating">★ {review.rating}.0</span></div>
+                <p>{review.body}</p>
+                <time dateTime={review.createdAt.toISOString()}>{review.createdAt.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</time>
+              </article>
+            )) : <p className="muted">No reviews yet. Be the first to share your experience.</p>}
+          </div>
+        </section>
         <section className="story">
           <div className="eyebrow">A note from the kitchen</div>
           <h2>Made for sharing.</h2>

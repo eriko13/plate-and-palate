@@ -115,6 +115,13 @@ export async function getDish(slug: string): Promise<Dish | undefined> {
   return dish ? toDish(dish) : undefined;
 }
 
+export type DishReview = { id: string; rating: number; body: string; userId: string; author: string; createdAt: Date };
+
+export async function getDishReviews(slug: string): Promise<DishReview[]> {
+  const reviews = await prisma.review.findMany({ where: { dish: { slug } }, include: { user: { select: { name: true } } }, orderBy: { createdAt: "desc" } });
+  return reviews.map((review) => ({ id: review.id, rating: review.rating, body: review.body, userId: review.userId, author: review.user.name ?? "Plate & Palate member", createdAt: review.createdAt }));
+}
+
 export async function getCookDishes(cookSlug: string): Promise<Dish[]> {
   const dishes = await prisma.dish.findMany({
     where: { cook: { slug: cookSlug } },

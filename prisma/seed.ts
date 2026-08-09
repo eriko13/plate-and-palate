@@ -199,17 +199,21 @@ async function main() {
   }
 
   const buyerHash = await hash("buyer1234", 10);
-  await prisma.user.create({
-    data: {
-      email: "buyer@plateandpalate.test",
-      name: "Alex Buyer",
-      passwordHash: buyerHash,
-      role: Role.BUYER,
-    },
-  });
+  const reviewers = await Promise.all(
+    ["Alex Buyer", "Jordan Miller", "Sam Taylor"].map((name, index) =>
+      prisma.user.create({
+        data: {
+          email: index === 0 ? "buyer@plateandpalate.test" : `reviewer${index}@plateandpalate.test`,
+          name,
+          passwordHash: buyerHash,
+          role: Role.BUYER,
+        },
+      }),
+    ),
+  );
 
   for (const dish of dishSeeds) {
-    await prisma.dish.create({
+    const createdDish = await prisma.dish.create({
       data: {
         slug: dish.slug,
         name: dish.name,
@@ -218,11 +222,26 @@ async function main() {
         image: dish.image,
         prepTime: dish.prepTime,
         tags: dish.tags,
-        rating: dish.rating,
-        reviewCount: dish.reviewCount,
         cookId: cookMap.get(dish.cookSlug)!,
         categoryId: categoryMap.get(dish.category)!,
       },
+    });
+    const ratings = [5, 5, 4];
+    await prisma.review.createMany({
+      data: reviewers.map((reviewer, index) => ({
+        dishId: createdDish.id,
+        userId: reviewer.id,
+        rating: ratings[index],
+        body: [
+          "Delicious and thoughtfully prepared. I would happily order this again.",
+          "Fresh, flavorful, and exactly what I was hoping for. Highly recommend it.",
+          "A lovely homemade dish with great flavor and generous portions.",
+        ][index],
+      })),
+    });
+    await prisma.dish.update({
+      where: { id: createdDish.id },
+      data: { rating: 14 / 3, reviewCount: reviewers.length },
     });
   }
 
