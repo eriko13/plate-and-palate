@@ -463,6 +463,44 @@ h3 {
   width: 140px;
 }
 
+.avatar-small {
+  height: 64px;
+  width: 64px;
+}
+
+.avatar-panel {
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+  padding-top: 24px;
+}
+
+.avatar-form .form-label,
+.dish-form .form-label {
+  display: block;
+  margin-top: 16px;
+}
+
+.avatar-form .button {
+  margin-top: 12px;
+}
+
+.dish-form .select-input {
+  width: 100%;
+}
+
+.dish-form .button {
+  margin-top: 18px;
+}
+
+.small-button.danger:hover {
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.manage-item .small-button {
+  margin-left: 6px;
+}
+
 .catalog-header {
   padding: 72px 0 38px;
 }

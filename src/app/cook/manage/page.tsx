@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { AvatarForm } from "@/components/AvatarForm";
+import { DeleteDishButton } from "@/components/DeleteDishButton";
 import { prisma } from "@/lib/prisma";
 
 export default async function ManageDishesPage() {
@@ -38,12 +40,26 @@ export default async function ManageDishesPage() {
             <div className="eyebrow">Cook dashboard</div>
             <h1>Your menu</h1>
             <p className="muted">
-              Signed in as {session.user.name}. Full create/edit forms will connect here next —
-              your live listings are below.
+              Signed in as {session.user.name}. Manage your menu, see buyer requests, and update your profile photo.
             </p>
-            <Link className="button button-primary" style={{ marginTop: 18, width: "100%" }} href={`/cook/${profile.slug}`}>
-              View public profile
-            </Link>
+            <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+              <Link className="button button-primary" href="/cook/dishes/new">
+                Add dish
+              </Link>
+              <Link className="button button-light" href={`/cook/${profile.slug}`}>
+                View public profile
+              </Link>
+            </div>
+            <div className="avatar-panel">
+              <div className="section-heading">
+                <div>
+                  <div className="eyebrow">Your photo</div>
+                  <h2>Profile photo</h2>
+                </div>
+                <Image className="avatar avatar-small" src={profile.avatar} alt="" width={64} height={64} />
+              </div>
+              <AvatarForm />
+            </div>
           </section>
           <section>
             <div className="section-heading">
@@ -72,6 +88,10 @@ export default async function ManageDishesPage() {
                   <Link className="small-button" href={`/dishes/${dish.slug}`}>
                     View
                   </Link>
+                  <Link className="small-button" href={`/cook/dishes/${dish.id}/edit`}>
+                    Edit
+                  </Link>
+                  <DeleteDishButton dishId={dish.id} dishName={dish.name} />
                 </article>
               ))}
               {!profile.dishes.length && (

@@ -19,5 +19,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/cook/manage"],
+  matcher: ["/cook/manage", "/cook/dishes/:path*"],
 };
