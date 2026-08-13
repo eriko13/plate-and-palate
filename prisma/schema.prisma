@@ -24,6 +24,7 @@ model User {
   sessions      Session[]
   cookProfile   CookProfile?
   reviews       Review[]
+  dishRequests  DishRequest[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 }
@@ -101,6 +102,7 @@ model Dish {
   categoryId  String
   category    Category    @relation(fields: [categoryId], references: [id])
   reviews     Review[]
+  requests    DishRequest[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
@@ -116,4 +118,17 @@ model Review {
   createdAt DateTime @default(now())
 
   @@unique([dishId, userId])
+}
+
+model DishRequest {
+  id        String   @id @default(cuid())
+  message   String   @db.Text
+  dishId    String
+  dish      Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  buyerId   String
+  buyer     User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([dishId, buyerId])
 }
