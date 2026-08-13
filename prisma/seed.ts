@@ -239,9 +239,10 @@ async function main() {
         ][index],
       })),
     });
+    const averageRating = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
     await prisma.dish.update({
       where: { id: createdDish.id },
-      data: { rating: 14 / 3, reviewCount: reviewers.length },
+      data: { rating: averageRating, reviewCount: ratings.length },
     });
   }
 

@@ -767,7 +767,7 @@ h3 {
 .star-picker { display: inline-flex; flex-direction: row-reverse; }
 .star-picker label { color: #c9bfae; cursor: pointer; font-size: 1.8rem; line-height: 1; }
 .star-picker input { position: absolute; opacity: 0; }
-.star-picker label:hover, .star-picker label:hover ~ label, .star-picker input:checked + span { color: #b7791f; }
+.star-picker label:hover, .star-picker label:hover ~ label, .star-picker label:has(input:checked), .star-picker label:has(input:checked) ~ label { color: #b7791f; }
 .star-picker input:focus-visible + span { outline: 2px solid var(--terracotta); outline-offset: 3px; }
 .review-textarea { display: block; min-height: 120px; resize: vertical; }
 .review-form .button { margin-top: 16px; }

@@ -15,8 +15,14 @@ export default async function ManageDishesPage() {
     where: { userId: session.user.id },
     include: {
       dishes: {
-        include: { category: true, requests: { include: { buyer: { select: { name: true, email: true } } }, orderBy: { createdAt: "desc" } } },
-        orderBy: { name: "asc" },
+    include: {
+      category: true,
+      requests: {
+        include: { buyer: { select: { name: true, email: true } } },
+        orderBy: { createdAt: "desc" },
+      },
+    },
+    orderBy: { name: "asc" },
       },
     },
   });
@@ -81,14 +87,21 @@ export default async function ManageDishesPage() {
                 <span className="muted">{profile.dishes.reduce((count, dish) => count + dish.requests.length, 0)} received</span>
               </div>
               <div className="review-list">
-                {profile.dishes.flatMap((dish) => dish.requests.map((request) => (
-                  <article className="review-item" key={request.id}>
-                    <div className="review-heading"><strong>{request.buyer.name ?? "Plate & Palate buyer"}</strong><span className="muted">{dish.name}</span></div>
-                    <p>{request.message}</p>
-                    <div className="muted">Reply at {request.buyer.email}</div>
-                  </article>
-                )))}
-                {!profile.dishes.some((dish) => dish.requests.length) && <p className="muted">New buyer requests will appear here.</p>}
+                {profile.dishes.flatMap((dish) =>
+                  dish.requests.map((request) => (
+                    <article className="review-item" key={request.id}>
+                      <div className="review-heading">
+                        <strong>{request.buyer.name ?? "Plate & Palate buyer"}</strong>
+                        <span className="muted">{dish.name}</span>
+                      </div>
+                      <p>{request.message}</p>
+                      <div className="muted">Reply at {request.buyer.email}</div>
+                    </article>
+                  )),
+                )}
+                {!profile.dishes.some((dish) => dish.requests.length) && (
+                  <p className="muted">New buyer requests will appear here.</p>
+                )}
               </div>
             </div>
           </section>

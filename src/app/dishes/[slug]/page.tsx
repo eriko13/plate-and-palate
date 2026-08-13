@@ -85,7 +85,10 @@ export default async function DishPage({ params }: { params: Promise<{ slug: str
           <div className="review-list">
             {reviews.length ? reviews.map((review) => (
               <article className="review-item" key={review.id}>
-                <div className="review-heading"><strong>{review.author}</strong><span className="rating">★ {review.rating}.0</span></div>
+                <div className="review-heading">
+                  <strong>{review.author}</strong>
+                  <span className="rating">★ {review.rating.toFixed(1)}</span>
+                </div>
                 <p>{review.body}</p>
                 <time dateTime={review.createdAt.toISOString()}>{review.createdAt.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</time>
               </article>
