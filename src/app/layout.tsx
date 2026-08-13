@@ -15,7 +15,7 @@ const sans = Karla({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://plate-and-palate-nortelab-projects.vercel.app"),
+  metadataBase: new URL("https://plate-and-palate-seven.vercel.app"),
   title: {
     default: "Plate & Palate | Food made close to home",
     template: "%s | Plate & Palate",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "Plate & Palate",
     description: "Homemade dishes from cooks in your neighborhood.",
     type: "website",
-    url: "https://plate-and-palate-nortelab-projects.vercel.app",
+    url: "https://plate-and-palate-seven.vercel.app",
     siteName: "Plate & Palate",
   },
 };

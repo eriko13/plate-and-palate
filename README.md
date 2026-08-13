@@ -67,7 +67,7 @@ pnpm dev
 
 ## Deployment
 
-The app is deployed to Vercel: https://plate-and-palate-nortelab-projects.vercel.app
+The app is deployed to Vercel: https://plate-and-palate-seven.vercel.app
 
 Environment variables live in the Vercel dashboard and are pulled locally with `vercel env pull .env.local`. See `.env.example` for the full list. The production database is Neon Postgres, shared with local development.
 
