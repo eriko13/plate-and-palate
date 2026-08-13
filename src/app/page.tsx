@@ -28,7 +28,7 @@ export default async function Home() {
   return (
     <>
       <Header overlay />
-      <main>
+      <main id="main">
         <section className="hero">
           <Image
             className="hero-photo"

@@ -1,9 +1,20 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DishCard } from "@/components/DishCard";
 import { getCook, getCookDishes } from "@/lib/data";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const cook = await getCook(slug);
+  if (!cook) return {};
+  return {
+    title: `${cook.name}'s kitchen`,
+    description: `${cook.name} cooks ${cook.specialty.toLowerCase()} in ${cook.location}. See the current menu and request a dish.`,
+  };
+}
 
 export default async function CookPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,7 +25,7 @@ export default async function CookPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <Header />
-      <main className="page-shell cook-profile">
+      <main id="main" className="page-shell cook-profile">
         <section className="profile-intro">
           <Image
             className="avatar avatar-large"

@@ -1,9 +1,15 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DishCard } from "@/components/DishCard";
 import { CatalogFilters } from "@/components/CatalogFilters";
 import { getCategories, getCooks, getDishes } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Browse dishes",
+  description: "Search homemade dishes by name, cook, category, or price.",
+};
 
 type BrowsePageProps = {
   searchParams: Promise<{
@@ -35,7 +41,7 @@ export default async function BrowsePage({ searchParams }: BrowsePageProps) {
   return (
     <>
       <Header />
-      <main className="page-shell">
+      <main id="main" className="page-shell">
         <section className="catalog-header">
           <div className="eyebrow">The neighborhood menu</div>
           <h1>Find something delicious.</h1>

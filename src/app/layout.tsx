@@ -15,8 +15,19 @@ const sans = Karla({
 });
 
 export const metadata: Metadata = {
-  title: "Plate & Palate | Food made close to home",
+  metadataBase: new URL("https://plate-and-palate-nortelab-projects.vercel.app"),
+  title: {
+    default: "Plate & Palate | Food made close to home",
+    template: "%s | Plate & Palate",
+  },
   description: "Discover homemade dishes from cooks in your neighborhood.",
+  openGraph: {
+    title: "Plate & Palate",
+    description: "Homemade dishes from cooks in your neighborhood.",
+    type: "website",
+    url: "https://plate-and-palate-nortelab-projects.vercel.app",
+    siteName: "Plate & Palate",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +40,12 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      {children}
+    </body>
     </html>
   );
 }

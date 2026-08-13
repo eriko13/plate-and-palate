@@ -10,7 +10,7 @@ export default async function NewDishPage() {
   return (
     <>
       <Header />
-      <main className="page-shell auth-page">
+      <main id="main" className="page-shell auth-page">
         <section className="auth-panel">
           <div className="eyebrow">Cook dashboard</div>
           <h1>Add a dish</h1>

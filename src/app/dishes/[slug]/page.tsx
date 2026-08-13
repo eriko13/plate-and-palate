@@ -1,12 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DishRequestForm } from "@/components/DishRequestForm";
 import { ReviewForm } from "@/components/ReviewForm";
 import { auth } from "@/auth";
 import { getCook, getDish, getDishReviews } from "@/lib/data";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const dish = await getDish(slug);
+  if (!dish) return {};
+  return {
+    title: dish.name,
+    description: dish.description,
+    openGraph: {
+      title: `${dish.name} | Plate & Palate`,
+      description: dish.description,
+      images: [dish.image],
+    },
+  };
+}
 
 export default async function DishPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -18,7 +34,7 @@ export default async function DishPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <Header />
-      <main className="page-shell">
+      <main id="main" className="page-shell">
         <div className="detail-layout">
           <Image
             className="detail-image"

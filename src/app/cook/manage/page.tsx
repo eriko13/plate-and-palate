@@ -34,7 +34,7 @@ export default async function ManageDishesPage() {
   return (
     <>
       <Header />
-      <main className="page-shell">
+      <main id="main" className="page-shell">
         <div className="manage-grid">
           <section className="manage-panel">
             <div className="eyebrow">Cook dashboard</div>

@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <>
       <Header />
-      <main className="page-shell auth-page">
+      <main id="main" className="page-shell auth-page">
         <section className="auth-panel">
           <div className="eyebrow">Welcome back</div>
           <h1>Sign in</h1>

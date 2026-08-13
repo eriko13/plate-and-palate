@@ -7,7 +7,7 @@ export default function RegisterPage() {
   return (
     <>
       <Header />
-      <main className="page-shell auth-page">
+      <main id="main" className="page-shell auth-page">
         <section className="auth-panel">
           <div className="eyebrow">Join the neighborhood table</div>
           <h1>Create your account</h1>

@@ -28,7 +28,7 @@ export default async function EditDishPage({ params }: { params: Promise<{ id: s
   return (
     <>
       <Header />
-      <main className="page-shell auth-page">
+      <main id="main" className="page-shell auth-page">
         <section className="auth-panel">
           <div className="eyebrow">Cook dashboard</div>
           <h1>Edit dish</h1>
