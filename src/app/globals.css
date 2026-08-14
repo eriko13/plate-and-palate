@@ -204,8 +204,12 @@ button, input, textarea, select {
   font-weight: var(--weight-semibold);
 }
 
-.nav a:not(.button):hover, .text-link:hover {
+.nav a:not(.button):hover {
   color: var(--terracotta);
+}
+
+.text-link:hover {
+  color: #7f321d;
 }
 
 .button {
@@ -393,7 +397,7 @@ h3 {
 }
 
 .text-link {
-  color: var(--terracotta);
+  color: var(--terracotta-dark);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
@@ -443,7 +447,7 @@ h3 {
 }
 
 .price {
-  color: var(--terracotta);
+  color: var(--terracotta-dark);
   font-size: var(--text-md);
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;
@@ -586,7 +590,7 @@ h3 {
 }
 
 .detail-price {
-  color: var(--terracotta);
+  color: var(--terracotta-dark);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;

@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { signOutAction } from "@/app/actions/auth";
+import { getCooks } from "@/lib/data";
 
 type HeaderProps = {
   overlay?: boolean;
 };
 
 export async function Header({ overlay = false }: HeaderProps) {
-  const session = await auth();
+  const [session, cooks] = await Promise.all([auth(), getCooks()]);
+  const firstCookSlug = cooks[0]?.slug;
 
   return (
     <header className={overlay ? "site-header site-header-overlay" : "site-header"}>
@@ -20,7 +22,7 @@ export async function Header({ overlay = false }: HeaderProps) {
         </div>
         <nav aria-label="Main navigation" className="nav">
           <Link href="/browse">Browse dishes</Link>
-          <Link href="/cook/marisol-hernandez">Meet the cooks</Link>
+          <Link href={firstCookSlug ? `/cook/${firstCookSlug}` : "/browse"}>Meet the cooks</Link>
           {session?.user ? (
             <>
               {session.user.role === "COOK" && (
